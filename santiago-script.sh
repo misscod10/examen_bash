@@ -13,15 +13,29 @@ do
     read -p "Selecciona una opció: " OPCIO
     if [[ $OPCIO -eq 1 ]] ; then
         read -p "Nom de l'usuari? " USUARI
-        sudo adduser $USUARI
+        if ! id -u $USUARI > /dev/null 2>&1; then
+            sudo adduser $USUARI
+        else
+            echo -e "\nL'usuari especificat ja existeix, siusplau, seleccioneu un altre.\n"
+        fi
     elif [[ $OPCIO -eq 2 ]] ; then
         read -p "Nom del grup? " GRUP
-        sudo addgroup $GRUP
+        if [ $(getent group $GRUP) ]; then
+            echo -e "El grup $GRUP ja existeix, siusplau, especifiqueu un altre grup.\n"
+        else
+            sudo addgroup $GRUP
+        fi
     elif [[ $OPCIO -eq 3 ]] ; then
         read -p "Nom del usuari a agregar al grup? " USUARI_GRUP
         read -p "Nom del grup al que agregar l'usuari? " GRUP_USUARI
-        sudo usermod -aG $GRUP_USUARI $USUARI_GRUP
-        echo -e "usuari $USUARI_GRUP agregat al grup $GRUP_USUARI"
+        if ! id -u $USUARI > /dev/null 2>&1; then 
+            echo -e "\nEl usuari especificat no existeix, crea-lo avans o especifica un que ja existeixi. \n"
+        elif ! [ $(getent group $GRUP) ] ; then
+            echo -e "El grup especificat no existeix, crea-lo avans o especifica un que ja  existeixi. \n"
+        else
+            sudo usermod -aG $GRUP_USUARI $USUARI_GRUP
+            echo -e "usuari $USUARI_GRUP agregat al grup $GRUP_USUARI"
+        fi
     elif [[ $OPCIO -eq 4 ]] ; then
         echo -e "¡Grácies per utilitzar el meu script, adeu!\n"
         exit 0
