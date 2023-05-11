@@ -11,15 +11,17 @@ while true
 do
     echo -e "1)Crear usuari\n2)Crear Grup\n3)Afegir usuari al grup\n4)Sortir"
     read -p "Selecciona una opció: " OPCIO
+
     if [[ $OPCIO -eq 1 ]] ; then
         read -p "Nom de l'usuari? " USUARI
-        if ! id -u $USUARI > /dev/null 2>&1; then
-            sudo adduser $USUARI
-        elif [[ "$USUARI" =~ [A-Z] ]]; then
+        if [[ "$USUARI" =~ [A-Z] ]]; then
             echo -e "Un usuari UNIX no pot utilitzar majúscules!\n"
+        elif ! id -u $USUARI > /dev/null 2>&1; then
+            sudo adduser $USUARI
         else
             echo -e "\nL'usuari especificat ja existeix, siusplau, seleccioneu un altre.\n"
         fi
+    
     elif [[ $OPCIO -eq 2 ]] ; then
         read -p "Nom del grup? " GRUP
         if [ $(getent group $GRUP) ]; then
@@ -27,6 +29,7 @@ do
         else
             sudo addgroup $GRUP
         fi
+    
     elif [[ $OPCIO -eq 3 ]] ; then
         read -p "Nom del usuari a agregar al grup? " USUARI_GRUP
         read -p "Nom del grup al que agregar l'usuari? " GRUP_USUARI
@@ -38,6 +41,7 @@ do
             sudo usermod -aG $GRUP_USUARI $USUARI_GRUP
             echo -e "usuari $USUARI_GRUP agregat al grup $GRUP_USUARI"
         fi
+    
     elif [[ $OPCIO -eq 4 ]] ; then
         echo -e "¡Grácies per utilitzar el meu script, adeu!\n"
         exit 0
