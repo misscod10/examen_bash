@@ -16,7 +16,7 @@ do
         sudo adduser $USUARI
     elif [[ $OPCIO -eq 2 ]] ; then
         read -p "Nom del grup? " GRUP
-        sudo groupadd $GRUP
+        sudo addgroup $GRUP
     elif [[ $OPCIO -eq 3 ]] ; then
         read -p "Nom del usuari a agregar al grup? " USUARI_GRUP
         read -p "Nom del grup al que agregar l'usuari? " GRUP_USUARI
