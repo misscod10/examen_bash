@@ -15,6 +15,8 @@ do
         read -p "Nom de l'usuari? " USUARI
         if ! id -u $USUARI > /dev/null 2>&1; then
             sudo adduser $USUARI
+        elif [[ $USUARI =~ [A-Z] ]]; then
+            echo -e "Un usuari UNIX no pot utilitzar majúscules!\n"
         else
             echo -e "\nL'usuari especificat ja existeix, siusplau, seleccioneu un altre.\n"
         fi
