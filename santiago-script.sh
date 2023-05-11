@@ -28,9 +28,9 @@ do
     elif [[ $OPCIO -eq 3 ]] ; then
         read -p "Nom del usuari a agregar al grup? " USUARI_GRUP
         read -p "Nom del grup al que agregar l'usuari? " GRUP_USUARI
-        if ! id -u $USUARI > /dev/null 2>&1; then 
+        if ! id -u $USUARI_GRUP > /dev/null 2>&1; then 
             echo -e "\nEl usuari especificat no existeix, crea-lo avans o especifica un que ja existeixi. \n"
-        elif ! grep -q -E "^admin:" /etc/group ; then
+        elif ! grep -q -E "^$GRUP_USUARI:" /etc/group ; then
             echo -e "El grup especificat no existeix, crea-lo avans o especifica un que ja  existeixi. \n"
         else
             sudo usermod -aG $GRUP_USUARI $USUARI_GRUP
