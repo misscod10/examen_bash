@@ -30,7 +30,7 @@ do
         read -p "Nom del grup al que agregar l'usuari? " GRUP_USUARI
         if ! id -u $USUARI > /dev/null 2>&1; then 
             echo -e "\nEl usuari especificat no existeix, crea-lo avans o especifica un que ja existeixi. \n"
-        elif ! [ $(getent group $GRUP) ] ; then
+        elif ! ($(getent group $GRUP)) ; then
             echo -e "El grup especificat no existeix, crea-lo avans o especifica un que ja  existeixi. \n"
         else
             sudo usermod -aG $GRUP_USUARI $USUARI_GRUP
